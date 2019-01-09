@@ -1990,17 +1990,19 @@ __webpack_require__.r(__webpack_exports__);
     return {
       categories: [],
       pagination: {
-        total: 0,
+        total: 4,
         per_page: 2,
         from: 1,
         to: 0,
-        current_page: 1
+        current_page: 0
       },
-      offset: 4
+      offset: 2
     };
   },
-  created: function created() {
+  mounted: function mounted() {
     var _this = this;
+
+    var page = this.pagination.current_page; // axios.get('/api/v1/category/page/' + page)
 
     axios.get('/api/v1/category').then(function (response) {
       _this.categories = response.data;
@@ -2025,7 +2027,31 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     pagesNumber: function pagesNumber() {
-      return [1, 2, 3];
+      //return [1,2,3];
+      if (!this.pagination.to) {
+        return [];
+      }
+
+      var from = this.pagination.current_page - this.offset;
+
+      if (from < 1) {
+        from = 1;
+      }
+
+      var to = from + this.offset * 2;
+
+      if (to >= this.pagination.last_page) {
+        to = this.pagination.last_page;
+      }
+
+      var pagesArray = [];
+
+      while (from <= to) {
+        pagesArray.push(from);
+        from++;
+      }
+
+      return pagesArray;
     }
   }
 });
@@ -53463,8 +53489,8 @@ var routes = [{
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\PROJECT_KHOIVINHPHAN\vuejs_laravel\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\PROJECT_KHOIVINHPHAN\vuejs_laravel\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\vuejs_laravel\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\vuejs_laravel\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

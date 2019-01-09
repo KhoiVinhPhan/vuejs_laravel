@@ -22,5 +22,6 @@ Route::group(['prefix' => '/v1', 'namespace' => 'Api\V1', 'as' => 'api.'], funct
 });
 
 Route::group(['prefix' => '/v1', 'namespace' => 'Api', 'as' => 'api.'], function () {
+	//Route::get('category/page/{page}', 'CategoryController@panigation');
     Route::resource('category', 'CategoryController', ['except' => ['create', 'edit']]);
 });

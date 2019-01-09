@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Category;
+use DB;
 
 class CategoryController extends Controller
 {
@@ -15,7 +16,12 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return Category::all();
+        return DB::table('categories')->offset(0)->limit(10)->get();
+    }
+
+    public function panigation($page)
+    {
+        return DB::table('categories')->offset($page)->limit(2)->get();
     }
 
     /**
