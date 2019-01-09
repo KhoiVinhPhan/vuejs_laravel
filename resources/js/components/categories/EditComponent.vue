@@ -1,7 +1,7 @@
 <template>
 	<div class="col-sm-12">
 		<div class="form-group">
-            <router-link to="/" class="btn btn-default">Back</router-link>
+            <router-link :to="{ name: 'Categories' }" class="btn btn-default">Back</router-link>
         </div>
 
         <div class="panel panel-default">
@@ -32,9 +32,11 @@
 </template>
 
 <script>
+    import { EventBus } from '../../event-bus.js';
     export default {
         data() {
             return {
+                edit_success: true,
                 categoryId: null,
                 category: {
                     name: '',
@@ -61,6 +63,7 @@
                 axios.patch('/api/v1/category/' + this.categoryId, newCategory)
                     .then(response => {
                         this.$router.replace('/categories');
+                        EventBus.$emit('edit-success', this.edit_success);
                     })
                     .catch(response => {
                         console.log(response);

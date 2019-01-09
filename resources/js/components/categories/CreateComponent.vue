@@ -1,7 +1,7 @@
 <template>
 	<div class="col-sm-12">
 		<div class="form-group">
-            <router-link to="/" class="btn btn-default">Back</router-link>
+            <router-link :to="{ name: 'Categories' }" class="btn btn-default">Back</router-link>
         </div>
 
         <div class="panel panel-default">
@@ -32,9 +32,11 @@
 </template>
 
 <script>
+    import { EventBus } from '../../event-bus.js';
 	export default {
 		data() {
 			return {
+                create_success: true,
 				category: {
 					name: '',
 					body: ''
@@ -46,13 +48,14 @@
                 event.preventDefault();
                 var newCategory = this.category;
                 axios.post('/api/v1/category', newCategory)
-                    .then(response => {
-                        this.$router.push({path: '/categories'});
-                    })
-                    .catch(response => {
-                        console.log(response);
-                        alert("Could not create your company");
-                    });
+                .then(response => {
+                    this.$router.push({path: '/categories'});
+                    EventBus.$emit('create-success', this.create_success);
+                })
+                .catch(response => {
+                    console.log(response);
+                    alert("Could not create your company");
+                });
             }
         }
 	}

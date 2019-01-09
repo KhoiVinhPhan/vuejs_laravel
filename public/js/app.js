@@ -1796,6 +1796,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _event_bus_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../event-bus.js */ "./resources/js/event-bus.js");
 //
 //
 //
@@ -1829,9 +1830,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      create_success: true,
       category: {
         name: '',
         body: ''
@@ -1848,6 +1851,8 @@ __webpack_require__.r(__webpack_exports__);
         _this.$router.push({
           path: '/categories'
         });
+
+        _event_bus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('create-success', _this.create_success);
       }).catch(function (response) {
         console.log(response);
         alert("Could not create your company");
@@ -1867,6 +1872,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _event_bus_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../event-bus.js */ "./resources/js/event-bus.js");
 //
 //
 //
@@ -1900,9 +1906,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      edit_success: true,
       categoryId: null,
       category: {
         name: '',
@@ -1929,6 +1937,8 @@ __webpack_require__.r(__webpack_exports__);
       var newCategory = this.category;
       axios.patch('/api/v1/category/' + this.categoryId, newCategory).then(function (response) {
         _this2.$router.replace('/categories');
+
+        _event_bus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('edit-success', _this2.edit_success);
       }).catch(function (response) {
         console.log(response);
         alert("Could not update your category");
@@ -1948,6 +1958,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _event_bus_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../event-bus.js */ "./resources/js/event-bus.js");
 //
 //
 //
@@ -1985,10 +1996,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       categories: [],
+      message_delete: 'delete',
       pagination: {
         total: 4,
         per_page: 2,
@@ -2006,10 +2021,18 @@ __webpack_require__.r(__webpack_exports__);
 
     axios.get('/api/v1/category').then(function (response) {
       _this.categories = response.data;
+      _event_bus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on('create-success', function (create_success) {
+        toastr["success"]("Them moi thanh cong");
+      });
+      _event_bus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on('edit-success', function (edit_success) {
+        toastr["success"]("Chinh sua thanh cong");
+      });
     }).catch(function (response) {
       console.log(response);
       alert("Could not load category");
     });
+    _event_bus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$off('create-success');
+    _event_bus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$off('edit-success');
   },
   methods: {
     deleteCategory: function deleteCategory(id, index) {
@@ -2017,10 +2040,11 @@ __webpack_require__.r(__webpack_exports__);
 
       if (confirm('Bạn có muốn xóa?')) {
         axios.delete('/api/v1/category/' + id).then(function (response) {
-          _this2.categories.splice(index, 1); // this.$router.replace('/categories');
+          _this2.categories.splice(index, 1);
 
+          _this2.message_delete = 'success'; // this.$router.replace('/categories');
         }).catch(function (response) {
-          console.log(response);
+          _this2.message_delete = 'error'; // console.log(response);
         });
       }
     }
@@ -2052,6 +2076,15 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       return pagesArray;
+    }
+  },
+  watch: {
+    message_delete: function message_delete() {
+      if (this.message_delete == 'success') {
+        toastr["success"]("Xoa thanh cong");
+      } else {
+        toastr["error"]("Xoa khong thanh cong");
+      }
     }
   }
 });
@@ -38610,7 +38643,10 @@ var render = function() {
       [
         _c(
           "router-link",
-          { staticClass: "btn btn-default", attrs: { to: "/" } },
+          {
+            staticClass: "btn btn-default",
+            attrs: { to: { name: "Categories" } }
+          },
           [_vm._v("Back")]
         )
       ],
@@ -38736,7 +38772,10 @@ var render = function() {
       [
         _c(
           "router-link",
-          { staticClass: "btn btn-default", attrs: { to: "/" } },
+          {
+            staticClass: "btn btn-default",
+            attrs: { to: { name: "Categories" } }
+          },
           [_vm._v("Back")]
         )
       ],
@@ -38860,7 +38899,10 @@ var render = function() {
       "div",
       [
         _c("router-link", { attrs: { to: { name: "CreateCategory" } } }, [
-          _vm._v("Create")
+          _c("input", {
+            staticClass: "btn btn-success",
+            attrs: { type: "button", value: "Thêm mới" }
+          })
         ])
       ],
       1
@@ -38885,7 +38927,7 @@ var render = function() {
                 _c(
                   "router-link",
                   {
-                    staticClass: "btn btn-xs btn-default",
+                    staticClass: "btn btn-sm btn-info",
                     attrs: {
                       to: { name: "EditComponent", params: { id: category.id } }
                     }
@@ -38895,7 +38937,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("input", {
                   staticClass: "btn btn-sm btn-danger",
-                  attrs: { type: "button", value: "Delelte" },
+                  attrs: { type: "button", value: "Delete" },
                   on: {
                     click: function($event) {
                       _vm.deleteCategory(category.id, index)
@@ -38980,22 +39022,31 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "div",
-      [
-        _c("router-link", { attrs: { to: { name: "Index" } } }, [
-          _c("a", [_vm._v("Trang chủ")])
-        ]),
-        _vm._v(" "),
-        _c("router-link", { attrs: { to: { name: "Categories" } } }, [
-          _c("a", [_vm._v("Danh mục")])
-        ])
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c("div", [_c("category-component")], 1)
+  return _c("div", { staticClass: "col-sm-12" }, [
+    _c("div", { staticClass: "panel panel-default" }, [
+      _c(
+        "div",
+        { staticClass: "panel-heading" },
+        [
+          _c("router-link", { attrs: { to: { name: "Index" } } }, [
+            _c("input", {
+              staticClass: "btn btn-default",
+              attrs: { type: "button", value: "Trang chủ" }
+            })
+          ]),
+          _vm._v(" "),
+          _c("router-link", { attrs: { to: { name: "Categories" } } }, [
+            _c("input", {
+              staticClass: "btn btn-default",
+              attrs: { type: "button", value: "Danh mục" }
+            })
+          ])
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "panel-body" }, [_c("category-component")], 1)
+    ])
   ])
 }
 var staticRenderFns = []
@@ -39020,20 +39071,33 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "div",
-      [
-        _c("router-link", { attrs: { to: { name: "Index" } } }, [
-          _c("a", [_vm._v("Trang chủ")])
-        ]),
-        _vm._v(" "),
-        _c("router-link", { attrs: { to: { name: "Categories" } } }, [
-          _c("a", [_vm._v("Danh mục")])
-        ])
-      ],
-      1
-    )
+  return _c("div", { staticClass: "col-sm-12" }, [
+    _c("div", { staticClass: "panel panel-default" }, [
+      _c(
+        "div",
+        { staticClass: "panel-heading" },
+        [
+          _c("router-link", { attrs: { to: { name: "Index" } } }, [
+            _c("input", {
+              staticClass: "btn btn-default",
+              attrs: { type: "button", value: "Trang chủ" }
+            })
+          ]),
+          _vm._v(" "),
+          _c("router-link", { attrs: { to: { name: "Categories" } } }, [
+            _c("input", {
+              staticClass: "btn btn-default",
+              attrs: { type: "button", value: "Danh mục" }
+            })
+          ])
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "panel-body" }, [
+        _vm._v("\n           \tNội dung \n        ")
+      ])
+    ])
   ])
 }
 var staticRenderFns = []
@@ -53432,6 +53496,23 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/event-bus.js":
+/*!***********************************!*\
+  !*** ./resources/js/event-bus.js ***!
+  \***********************************/
+/*! exports provided: EventBus */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EventBus", function() { return EventBus; });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var EventBus = new vue__WEBPACK_IMPORTED_MODULE_0___default.a();
+
+/***/ }),
+
 /***/ "./resources/js/index.js":
 /*!*******************************!*\
   !*** ./resources/js/index.js ***!
@@ -53489,8 +53570,8 @@ var routes = [{
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\vuejs_laravel\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\vuejs_laravel\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\xampp\htdocs\vuejs_laravel\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\xampp\htdocs\vuejs_laravel\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
