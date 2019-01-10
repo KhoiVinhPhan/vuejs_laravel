@@ -2,12 +2,14 @@
     <div class="col-sm-12">
         <div>
             <router-link :to="{ name: 'CreateCategory' }">
-                <input type="button" class="btn btn-success" value="Thêm mới">
+                <input type="button" class="btn btn-success btn-sm" value="Thêm mới">
             </router-link>
+            <input type="button" v-on:click="multiDelete()" class="btn btn-danger btn-sm" value="Delete choice">
         </div>
         <table class="table table-bordered">
             <thead>
                 <tr>
+                    <th><input type="checkbox"></th>
                     <th>#</th>
                     <th>name</th>
                     <th>body</th>
@@ -16,6 +18,7 @@
             </thead>
             <tbody>
                 <tr v-for="category, index in categories">
+                    <td><input type="checkbox" v-bind:value="category.id" v-model="checkedCategory"></td>
                     <td>{{index+1}}</td>
                     <td>{{category.name}}</td>
                     <td>{{category.body}}</td>
@@ -26,6 +29,7 @@
                 </tr>
             </tbody>
         </table>
+        <p>{{checkedCategory}}</p>
         <ul class="pagination">
             <li><a href="#"><<</a></li>
             <li v-for="page in pagesNumber">
@@ -43,6 +47,7 @@
         data() {
             return {
                 categories: [],
+                checkedCategory: [],
                 message_delete: 'delete',
                 pagination: {
                     total: 4, 
@@ -89,6 +94,17 @@
                         // console.log(response);
                     });
                 }
+            },
+
+            multiDelete() {
+                axios.post('/api/v1/category/multi-delete', this.checkedCategory)
+                .then(response => {
+                    console.log('success');
+
+                })
+                .catch(response => {
+                    console.log('error');
+                })
             }
 
         },
