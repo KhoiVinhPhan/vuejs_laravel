@@ -94,4 +94,11 @@ class CategoryController extends Controller
         $category->delete();
         return '';
     }
+
+    public function multiDelete(Request $request)
+    {
+        $input = $request->all();
+        $category = Category::whereIn('id', $input)->delete();
+        return '';
+    }
 }

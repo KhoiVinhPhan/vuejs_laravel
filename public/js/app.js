@@ -1998,11 +1998,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       categories: [],
+      checkedCategory: [],
       message_delete: 'delete',
       pagination: {
         total: 4,
@@ -2047,6 +2052,13 @@ __webpack_require__.r(__webpack_exports__);
           _this2.message_delete = 'error'; // console.log(response);
         });
       }
+    },
+    multiDelete: function multiDelete() {
+      axios.post('/api/v1/category/multi-delete', this.checkedCategory).then(function (response) {
+        console.log('success');
+      }).catch(function (response) {
+        console.log('error');
+      });
     }
   },
   computed: {
@@ -38900,10 +38912,20 @@ var render = function() {
       [
         _c("router-link", { attrs: { to: { name: "CreateCategory" } } }, [
           _c("input", {
-            staticClass: "btn btn-success",
+            staticClass: "btn btn-success btn-sm",
             attrs: { type: "button", value: "Thêm mới" }
           })
-        ])
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          staticClass: "btn btn-danger btn-sm",
+          attrs: { type: "button", value: "Delete choice" },
+          on: {
+            click: function($event) {
+              _vm.multiDelete()
+            }
+          }
+        })
       ],
       1
     ),
@@ -38915,6 +38937,47 @@ var render = function() {
         "tbody",
         _vm._l(_vm.categories, function(category, index) {
           return _c("tr", [
+            _c("td", [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.checkedCategory,
+                    expression: "checkedCategory"
+                  }
+                ],
+                attrs: { type: "checkbox" },
+                domProps: {
+                  value: category.id,
+                  checked: Array.isArray(_vm.checkedCategory)
+                    ? _vm._i(_vm.checkedCategory, category.id) > -1
+                    : _vm.checkedCategory
+                },
+                on: {
+                  change: function($event) {
+                    var $$a = _vm.checkedCategory,
+                      $$el = $event.target,
+                      $$c = $$el.checked ? true : false
+                    if (Array.isArray($$a)) {
+                      var $$v = category.id,
+                        $$i = _vm._i($$a, $$v)
+                      if ($$el.checked) {
+                        $$i < 0 && (_vm.checkedCategory = $$a.concat([$$v]))
+                      } else {
+                        $$i > -1 &&
+                          (_vm.checkedCategory = $$a
+                            .slice(0, $$i)
+                            .concat($$a.slice($$i + 1)))
+                      }
+                    } else {
+                      _vm.checkedCategory = $$c
+                    }
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
             _c("td", [_vm._v(_vm._s(index + 1))]),
             _vm._v(" "),
             _c("td", [_vm._v(_vm._s(category.name))]),
@@ -38953,6 +39016,8 @@ var render = function() {
       )
     ]),
     _vm._v(" "),
+    _c("p", [_vm._v(_vm._s(_vm.checkedCategory))]),
+    _vm._v(" "),
     _c(
       "ul",
       { staticClass: "pagination" },
@@ -38978,6 +39043,8 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
+        _c("th", [_c("input", { attrs: { type: "checkbox" } })]),
+        _vm._v(" "),
         _c("th", [_vm._v("#")]),
         _vm._v(" "),
         _c("th", [_vm._v("name")]),
