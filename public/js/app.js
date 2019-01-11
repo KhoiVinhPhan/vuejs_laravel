@@ -2061,6 +2061,17 @@ __webpack_require__.r(__webpack_exports__);
       }).catch(function (response) {
         console.log('error');
       });
+    },
+    checkIndex: function checkIndex(index, event) {
+      // console.log(event);
+      if (event.target.checked) {
+        this.checkedCategoryIndex.push({
+          index: index,
+          id: event.target.id
+        }); // console.log(this.checkedCategoryIndex);
+      } else {
+        this.$delete(this.checkedCategoryIndex, index); // this.checkedCategoryIndex.splice({index: index, id: event.target.id},1);
+      }
     }
   },
   computed: {
@@ -38957,6 +38968,9 @@ var render = function() {
                     : _vm.checkedCategory
                 },
                 on: {
+                  click: function($event) {
+                    _vm.checkIndex(index, $event)
+                  },
                   change: function($event) {
                     var $$a = _vm.checkedCategory,
                       $$el = $event.target,
@@ -53641,8 +53655,8 @@ var routes = [{
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\vuejs_laravel\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\vuejs_laravel\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\xampp\htdocs\vuejs_laravel\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\xampp\htdocs\vuejs_laravel\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

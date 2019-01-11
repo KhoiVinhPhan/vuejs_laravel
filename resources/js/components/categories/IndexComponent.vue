@@ -18,7 +18,7 @@
             </thead>
             <tbody>
                 <tr v-for="category, index in categories">
-                    <td><input type="checkbox" v-bind:value="category.id" v-bind:id="category.id" v-model="checkedCategory"></td>
+                    <td><input type="checkbox" v-on:click="checkIndex(index, $event)" v-bind:value="category.id" v-bind:id="category.id" v-model="checkedCategory"></td>
                     <td>{{index+1}}</td>
                     <td>{{category.name}}</td>
                     <td>{{category.body}}</td>
@@ -103,11 +103,22 @@
                 .then(response => {
                     console.log('success');
 
-
                 })
                 .catch(response => {
                     console.log('error');
                 })
+            },
+
+            checkIndex(index, event) {
+                // console.log(event);
+                if (event.target.checked) {
+                    this.checkedCategoryIndex.push({ index: index, id: event.target.id});
+                    // console.log(this.checkedCategoryIndex);
+                } else {
+                    this.$delete(this.checkedCategoryIndex, index);
+                    // this.checkedCategoryIndex.splice({index: index, id: event.target.id},1);
+                }
+                
             }
 
         },
