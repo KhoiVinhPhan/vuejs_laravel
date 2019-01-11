@@ -2009,6 +2009,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       categories: [],
       checkedCategory: [],
+      checkedCategoryIndex: [],
       message_delete: 'delete',
       pagination: {
         total: 4,
@@ -38948,7 +38949,7 @@ var render = function() {
                     expression: "checkedCategory"
                   }
                 ],
-                attrs: { type: "checkbox" },
+                attrs: { type: "checkbox", id: category.id },
                 domProps: {
                   value: category.id,
                   checked: Array.isArray(_vm.checkedCategory)
@@ -39019,7 +39020,7 @@ var render = function() {
     _vm._v(" "),
     _c("p", [_vm._v(_vm._s(_vm.checkedCategory))]),
     _vm._v(" "),
-    _c("p", [_vm._v("test")]),
+    _c("p", [_vm._v(_vm._s(_vm.checkedCategoryIndex))]),
     _vm._v(" "),
     _c(
       "ul",

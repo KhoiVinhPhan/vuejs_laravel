@@ -18,7 +18,7 @@
             </thead>
             <tbody>
                 <tr v-for="category, index in categories">
-                    <td><input type="checkbox" v-bind:value="category.id" v-model="checkedCategory"></td>
+                    <td><input type="checkbox" v-bind:value="category.id" v-bind:id="category.id" v-model="checkedCategory"></td>
                     <td>{{index+1}}</td>
                     <td>{{category.name}}</td>
                     <td>{{category.body}}</td>
@@ -30,7 +30,7 @@
             </tbody>
         </table>
         <p>{{checkedCategory}}</p>
-        <p>test</p>
+        <p>{{checkedCategoryIndex}}</p>
         <ul class="pagination">
             <li><a href="#"><<</a></li>
             <li v-for="page in pagesNumber">
@@ -49,6 +49,7 @@
             return {
                 categories: [],
                 checkedCategory: [],
+                checkedCategoryIndex: [],
                 message_delete: 'delete',
                 pagination: {
                     total: 4, 
@@ -101,6 +102,7 @@
                 axios.post('/api/v1/category/multi-delete', this.checkedCategory)
                 .then(response => {
                     console.log('success');
+
 
                 })
                 .catch(response => {
