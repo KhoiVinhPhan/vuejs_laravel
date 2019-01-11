@@ -30,6 +30,7 @@
             </tbody>
         </table>
         <p>{{checkedCategory}}</p>
+        <p>test</p>
         <ul class="pagination">
             <li><a href="#"><<</a></li>
             <li v-for="page in pagesNumber">

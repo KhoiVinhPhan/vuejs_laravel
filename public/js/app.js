@@ -2002,6 +2002,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -39017,6 +39018,8 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("p", [_vm._v(_vm._s(_vm.checkedCategory))]),
+    _vm._v(" "),
+    _c("p", [_vm._v("test")]),
     _vm._v(" "),
     _c(
       "ul",
