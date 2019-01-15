@@ -2056,11 +2056,21 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     multiDelete: function multiDelete() {
-      axios.post('/api/v1/category/multi-delete', this.checkedCategory).then(function (response) {
-        console.log('success');
-      }).catch(function (response) {
-        console.log('error');
-      });
+      var _this3 = this;
+
+      if (confirm('Bạn có muốn xóa?')) {
+        axios.post('/api/v1/category/multi-delete', this.checkedCategory).then(function (response) {
+          if (response.data == null) {
+            toastr["error"]("Chua chon phan tu");
+          } else {
+            _this3.categories = response.data;
+            _this3.checkedCategory = [];
+            toastr["success"]("Xoa thanh cong");
+          }
+        }).catch(function (response) {
+          toastr["error"]("Xoa thanh cong");
+        });
+      }
     },
     checkIndex: function checkIndex(index, event) {
       // console.log(event);
@@ -2069,9 +2079,9 @@ __webpack_require__.r(__webpack_exports__);
           index: index,
           id: event.target.id
         }); // console.log(this.checkedCategoryIndex);
-      } else {
-        this.$delete(this.checkedCategoryIndex, index); // this.checkedCategoryIndex.splice({index: index, id: event.target.id},1);
-      }
+      } else {// this.$delete(this.checkedCategoryIndex, index);
+          // this.checkedCategoryIndex.splice({index: index, id: event.target.id},1);
+        }
     }
   },
   computed: {
@@ -39032,10 +39042,6 @@ var render = function() {
       )
     ]),
     _vm._v(" "),
-    _c("p", [_vm._v(_vm._s(_vm.checkedCategory))]),
-    _vm._v(" "),
-    _c("p", [_vm._v(_vm._s(_vm.checkedCategoryIndex))]),
-    _vm._v(" "),
     _c(
       "ul",
       { staticClass: "pagination" },
@@ -53655,8 +53661,8 @@ var routes = [{
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\xampp\htdocs\vuejs_laravel\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\xampp\htdocs\vuejs_laravel\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\vuejs_laravel\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\vuejs_laravel\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

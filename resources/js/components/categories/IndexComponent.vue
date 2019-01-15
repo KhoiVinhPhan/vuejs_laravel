@@ -29,8 +29,8 @@
                 </tr>
             </tbody>
         </table>
-        <p>{{checkedCategory}}</p>
-        <p>{{checkedCategoryIndex}}</p>
+        <!-- <p>{{checkedCategory}}</p> -->
+        <!-- <p>{{checkedCategoryIndex}}</p> -->
         <ul class="pagination">
             <li><a href="#"><<</a></li>
             <li v-for="page in pagesNumber">
@@ -70,7 +70,7 @@
                 EventBus.$on('create-success', create_success => {
                     toastr["success"]("Them moi thanh cong");
                 });
-                EventBus.$on('edit-success', edit_success =>{
+                EventBus.$on('edit-success', edit_success => {
                     toastr["success"]("Chinh sua thanh cong");
                 });
             })
@@ -99,14 +99,22 @@
             },
 
             multiDelete() {
-                axios.post('/api/v1/category/multi-delete', this.checkedCategory)
-                .then(response => {
-                    console.log('success');
-
-                })
-                .catch(response => {
-                    console.log('error');
-                })
+            	if ( confirm('Bạn có muốn xóa?') ) {
+            		axios.post('/api/v1/category/multi-delete', this.checkedCategory)
+	                .then(response => {
+	                	if (response.data == null) {
+	                		toastr["error"]("Chua chon phan tu");
+	                	} else {
+	                		this.categories = response.data;
+	                    	this.checkedCategory = [];
+	                    	toastr["success"]("Xoa thanh cong");
+	                	}
+	                    
+	                })
+	                .catch(response => {
+	                    toastr["error"]("Xoa thanh cong");
+	                })
+            	}
             },
 
             checkIndex(index, event) {
@@ -115,7 +123,7 @@
                     this.checkedCategoryIndex.push({ index: index, id: event.target.id});
                     // console.log(this.checkedCategoryIndex);
                 } else {
-                    this.$delete(this.checkedCategoryIndex, index);
+                    // this.$delete(this.checkedCategoryIndex, index);
                     // this.checkedCategoryIndex.splice({index: index, id: event.target.id},1);
                 }
                 

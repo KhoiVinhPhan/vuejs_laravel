@@ -16,7 +16,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return DB::table('categories')->offset(0)->limit(10)->get();
+        return DB::table('categories')->get();
     }
 
     public function panigation($page)
@@ -98,7 +98,12 @@ class CategoryController extends Controller
     public function multiDelete(Request $request)
     {
         $input = $request->all();
-        $category = Category::whereIn('id', $input)->delete();
-        return '';
+        if ( !empty($input) ) {
+            $category = Category::whereIn('id', $input)->delete();
+            return DB::table('categories')->get();
+        } else {
+            return 'null';
+        }
+        
     }
 }
