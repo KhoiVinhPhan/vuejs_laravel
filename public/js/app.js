@@ -1830,6 +1830,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -1838,7 +1839,8 @@ __webpack_require__.r(__webpack_exports__);
       category: {
         name: '',
         body: ''
-      }
+      },
+      files: []
     };
   },
   methods: {
@@ -1857,6 +1859,11 @@ __webpack_require__.r(__webpack_exports__);
         console.log(response);
         alert("Could not create your company");
       });
+    },
+    previewFiles: function previewFiles(event) {
+      // console.log(event.target.files);
+      console.log(this.$refs.myFiles.files);
+      this.files = this.$refs.myFiles.files;
     }
   }
 });
@@ -38704,59 +38711,71 @@ var render = function() {
             }
           },
           [
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-xs-12 form-group" }, [
-                _c("label", { staticClass: "control-label" }, [_vm._v("Name")]),
-                _vm._v(" "),
+            _c("div", [
+              _c("div", { staticClass: "col-sm-2" }, [
                 _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.category.name,
-                      expression: "category.name"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { type: "text" },
-                  domProps: { value: _vm.category.name },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.category, "name", $event.target.value)
-                    }
-                  }
+                  ref: "myFiles",
+                  attrs: { type: "file", id: "file", multiple: "" },
+                  on: { change: _vm.previewFiles }
                 })
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-xs-12 form-group" }, [
-                _c("label", { staticClass: "control-label" }, [_vm._v("Body")]),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-sm-10" }, [
+                _c("div", { staticClass: "col-xs-12 form-group" }, [
+                  _c("label", { staticClass: "control-label" }, [
+                    _vm._v("Name")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.category.name,
+                        expression: "category.name"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text" },
+                    domProps: { value: _vm.category.name },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.category, "name", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
                 _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.category.body,
-                      expression: "category.body"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { type: "text" },
-                  domProps: { value: _vm.category.body },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
+                _c("div", { staticClass: "col-xs-12 form-group" }, [
+                  _c("label", { staticClass: "control-label" }, [
+                    _vm._v("Body")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.category.body,
+                        expression: "category.body"
                       }
-                      _vm.$set(_vm.category, "body", $event.target.value)
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text" },
+                    domProps: { value: _vm.category.body },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.category, "body", $event.target.value)
+                      }
                     }
-                  }
-                })
+                  })
+                ])
               ])
             ]),
             _vm._v(" "),
@@ -38772,10 +38791,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-xs-12 form-group" }, [
-        _c("button", { staticClass: "btn btn-success" }, [_vm._v("Create")])
-      ])
+    return _c("div", { staticClass: "col-xs-12 form-group" }, [
+      _c("button", { staticClass: "btn btn-success" }, [_vm._v("Create")])
     ])
   }
 ]
@@ -39067,15 +39084,17 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_c("input", { attrs: { type: "checkbox" } })]),
+        _c("th", { attrs: { width: "5%" } }, [
+          _c("input", { attrs: { type: "checkbox" } })
+        ]),
         _vm._v(" "),
-        _c("th", [_vm._v("#")]),
+        _c("th", { attrs: { width: "5%" } }, [_vm._v("#")]),
         _vm._v(" "),
-        _c("th", [_vm._v("name")]),
+        _c("th", { attrs: { width: "20%" } }, [_vm._v("name")]),
         _vm._v(" "),
-        _c("th", [_vm._v("body")]),
+        _c("th", { attrs: { width: "20%" } }, [_vm._v("body")]),
         _vm._v(" "),
-        _c("th", [_vm._v("actions")])
+        _c("th", { attrs: { width: "20%" } }, [_vm._v("actions")])
       ])
     ])
   },
@@ -53661,8 +53680,8 @@ var routes = [{
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\vuejs_laravel\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\vuejs_laravel\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\xampp\htdocs\vuejs_laravel\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\xampp\htdocs\vuejs_laravel\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

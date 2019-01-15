@@ -9,11 +9,11 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th><input type="checkbox"></th>
-                    <th>#</th>
-                    <th>name</th>
-                    <th>body</th>
-                    <th>actions</th>
+                    <th width="5%"><input type="checkbox"></th>
+                    <th width="5%">#</th>
+                    <th width="20%">name</th>
+                    <th width="20%">body</th>
+                    <th width="20%">actions</th>
                 </tr>
             </thead>
             <tbody>

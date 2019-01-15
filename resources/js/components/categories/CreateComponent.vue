@@ -8,22 +8,23 @@
             <div class="panel-heading">Create new Category</div>
             <div class="panel-body">
                 <form v-on:submit="saveForm()">
-                    <div class="row">
-                        <div class="col-xs-12 form-group">
-                            <label class="control-label">Name</label>
-                            <input type="text" v-model="category.name" class="form-control">
+                    <div>
+                        <div class="col-sm-2">
+                            <input type="file" id="file" ref="myFiles" @change="previewFiles" multiple>
+                        </div>
+                        <div class="col-sm-10">
+                            <div class="col-xs-12 form-group">
+                                <label class="control-label">Name</label>
+                                <input type="text" v-model="category.name" class="form-control">
+                            </div>
+                            <div class="col-xs-12 form-group">
+                                <label class="control-label">Body</label>
+                                <input type="text" v-model="category.body" class="form-control">
+                            </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-xs-12 form-group">
-                            <label class="control-label">Body</label>
-                            <input type="text" v-model="category.body" class="form-control">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12 form-group">
-                            <button class="btn btn-success">Create</button>
-                        </div>
+                    <div class="col-xs-12 form-group">
+                        <button class="btn btn-success">Create</button>
                     </div>
                 </form>
             </div>
@@ -40,7 +41,8 @@
 				category: {
 					name: '',
 					body: ''
-				}
+				},
+                files: [],
 			}
 		},
 		methods: {
@@ -56,6 +58,11 @@
                     console.log(response);
                     alert("Could not create your company");
                 });
+            },
+            previewFiles(event) {
+                // console.log(event.target.files);
+                console.log(this.$refs.myFiles.files);
+                this.files = this.$refs.myFiles.files;
             }
         }
 	}
