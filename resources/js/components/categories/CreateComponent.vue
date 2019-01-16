@@ -10,7 +10,7 @@
                 <form v-on:submit="saveForm()">
                     <div>
                         <div class="col-sm-2">
-                            <input type="file" id="file" ref="myFiles" @change="previewFiles" multiple>
+                            <input type="file" id="file" ref="file" @change="previewFiles" multiple>
                         </div>
                         <div class="col-sm-10">
                             <div class="col-xs-12 form-group">
@@ -42,14 +42,15 @@
 					name: '',
 					body: ''
 				},
-                files: [],
+                file: '',
 			}
 		},
 		methods: {
             saveForm() {
                 event.preventDefault();
                 var newCategory = this.category;
-                axios.post('/api/v1/category', newCategory)
+                var file = this.file;
+                axios.post( '/api/v1/category', newCategory )
                 .then(response => {
                     this.$router.push({path: '/categories'});
                     EventBus.$emit('create-success', this.create_success);
@@ -59,11 +60,10 @@
                     alert("Could not create your company");
                 });
             },
-            previewFiles(event) {
-                // console.log(event.target.files);
-                console.log(this.$refs.myFiles.files);
-                this.files = this.$refs.myFiles.files;
+            previewFiles(e) {
+                this.file = this.$refs.file.files[0];
             }
+            
         }
 	}
 </script>

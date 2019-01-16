@@ -1840,7 +1840,7 @@ __webpack_require__.r(__webpack_exports__);
         name: '',
         body: ''
       },
-      files: []
+      file: ''
     };
   },
   methods: {
@@ -1849,6 +1849,7 @@ __webpack_require__.r(__webpack_exports__);
 
       event.preventDefault();
       var newCategory = this.category;
+      var file = this.file;
       axios.post('/api/v1/category', newCategory).then(function (response) {
         _this.$router.push({
           path: '/categories'
@@ -1860,10 +1861,8 @@ __webpack_require__.r(__webpack_exports__);
         alert("Could not create your company");
       });
     },
-    previewFiles: function previewFiles(event) {
-      // console.log(event.target.files);
-      console.log(this.$refs.myFiles.files);
-      this.files = this.$refs.myFiles.files;
+    previewFiles: function previewFiles(e) {
+      this.file = this.$refs.file.files[0];
     }
   }
 });
@@ -38714,7 +38713,7 @@ var render = function() {
             _c("div", [
               _c("div", { staticClass: "col-sm-2" }, [
                 _c("input", {
-                  ref: "myFiles",
+                  ref: "file",
                   attrs: { type: "file", id: "file", multiple: "" },
                   on: { change: _vm.previewFiles }
                 })
@@ -53680,8 +53679,8 @@ var routes = [{
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\xampp\htdocs\vuejs_laravel\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\xampp\htdocs\vuejs_laravel\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\vuejs_laravel\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\vuejs_laravel\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
