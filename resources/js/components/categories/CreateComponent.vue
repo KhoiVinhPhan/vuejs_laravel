@@ -77,7 +77,7 @@
 </script>
 <style lang="scss" scoped>
     .dropbox {
-        
+        outline: 2px dashed grey; /* the dash box */
         outline-offset: -10px;
         background: lightcyan;
         color: dimgray;
